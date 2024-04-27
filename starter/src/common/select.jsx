@@ -10,11 +10,11 @@ export default function Select(props) {
             <option value="none" disabled>
                 Move to...
             </option>
-            <option value="CURR_READ">
+            <option value="currentlyReading">
                 Currently Reading
             </option>
-            <option value="WANT_READ">Want to Read</option>
-            <option value="READ">Read</option>
+            <option value="wantToRead">Want to Read</option>
+            <option value="read">Read</option>
             <option value="NONE">None</option>
         </select>
     )

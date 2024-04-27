@@ -10,7 +10,7 @@ export default function BookStore(props) {
       <h2 className="bookshelf-title">{props.title}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {props.listCurrentRead.map(ele => (
+          {props.listCurrentRead && props.listCurrentRead.map(ele => (
             <li key={ele.id}>
             <div className="book">
               <div className="book-top">
@@ -20,15 +20,15 @@ export default function BookStore(props) {
                     width: 128,
                     height: 193,
                     backgroundImage:
-                      `${ele.url}`
+                      `url(${ele.imageLinks.thumbnail})`
                   }}
                 ></div>
                 <div className="book-shelf-changer">
-                  <Select value={ele.status} handleChangeSelect={(value) => handleChangeSelect(value, ele.id)}/>
+                  <Select value={ele.shelf} handleChangeSelect={(value) => handleChangeSelect(value, ele.id)}/>
                 </div>
               </div>
               <div className="book-title">{ele.title}</div>
-              <div className="book-authors">{ele.author}</div>
+              <div className="book-authors">{ele.authors}</div>
             </div>
           </li>
           ))} 

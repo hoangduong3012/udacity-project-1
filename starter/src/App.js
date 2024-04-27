@@ -1,65 +1,39 @@
 import "./App.css";
 import React, { useEffect, useState }  from "react";
-import BookShelf from "./books";
-import { mockListData } from "./data";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Search from "./books/search.jsx"
+import Home from "./home"
+import { getAll, update } from "./BooksAPI"
 
 function App() {
-  const [listData, setListData] = useState(mockListData);
+  const [listData, setListData] = useState([]);
   const handleChangeSelect = (value, id) => {
-    const data = listData.map(ele => {if (ele.id === id) {
-      ele.status = value;
-      return {...ele, status: value}
-   } return ele})
-    localStorage.setItem('data', JSON.stringify(data));
-    setListData(data);
+    updateData(value, id)
   }
+
+  async function fetchData() {
+    const listBook =  await getAll();
+    setListData(listBook);
+  }
+
+  async function updateData(value, id) {
+   await  update({id}, value)
+   await fetchData();
+  }
+
   useEffect(()=> {
-    const listHydrate = localStorage.getItem('data');
-    if (listHydrate) {
-      setListData(JSON.parse(listHydrate))
-    }
+    fetchData();
+    
   }, [])
 
   return (
     <div className="app">
        <Routes>
         <Route exact path="/" element={(
-        <div className="list-books">
-          <Link to="/search">Search book</Link>
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-          <div className="list-books-content">
-            
-            {listData && listData.length > 0  && <div>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Currently Reading'} list={listData} statusGet={"CURR_READ"}/>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Want to Read'} list={listData} statusGet={"WANT_READ"}/>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Read'} list={listData} statusGet={"READ"}/>
-            </div>}
-          </div>
-        </div>
+        <Home listData={listData} handleChangeSelect={handleChangeSelect}/>
       )}>
-        {/* (
-        <div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-          <div className="list-books-content">
-            {listData && listData.length > 0  && <div>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Currently Reading'} list={listData} statusGet={"CURR_READ"}/>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Want to Read'} list={listData} statusGet={"WANT_READ"}/>
-              <BookShelf handleChangeSelect={handleChangeSelect} title={'Read'} list={listData} statusGet={"READ"}/>
-            </div>}
-          </div>
-          <div className="open-search">
-            <Link to="/search">About</Link>
-          </div>
-        </div>
-      ) */}
         </Route>
-        <Route path="/search" element={ <Search />}>
+        <Route path="/search" element={ <Search fetchData={fetchData} listData={listData} updateData={updateData}/>}>
            
         </Route>
       </Routes>
