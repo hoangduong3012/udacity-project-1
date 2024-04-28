@@ -16,14 +16,14 @@ export default function Search(props) {
 
     async function searchData(conditionSearch) {
         const listBook =  await search(conditionSearch);
-        listBook.map(book => {
-            const bookFound = listData.find(data => data.id === book.id );
-            if (bookFound) {
-                book.shelf = bookFound.shelf
-            }
-            return book;
-        });
         if (Array.isArray(listBook)) {
+            listBook.map(book => {
+                const bookFound = listData.find(data => data.id === book.id );
+                if (bookFound) {
+                    book.shelf = bookFound.shelf
+                }
+                return book;
+            });
             setListData(listBook);
         } else {
             setListData([]);
@@ -32,7 +32,7 @@ export default function Search(props) {
 
     useEffect(()=> {
         setListData(props.listData);
-    }, [])
+    }, [props.listData])
     
     const handleChangeSearch = async (e) => {
         setSearchInput(e.target.value)
