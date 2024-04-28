@@ -1,8 +1,6 @@
 import React, { useState, useEffect }  from "react";
 import BookShelf from "./";
-import { mockListData } from "../data"
 import { Link } from "react-router-dom";
-import Select from "../common/select";
 import { search } from "../BooksAPI"
 
 export default function Search(props) {
@@ -18,30 +16,28 @@ export default function Search(props) {
 
     async function searchData(conditionSearch) {
         const listBook =  await search(conditionSearch);
+        listBook.map(book => {
+            const bookFound = listData.find(data => data.id === book.id );
+            if (bookFound) {
+                book.shelf = bookFound.shelf
+            }
+            return book;
+        });
         if (Array.isArray(listBook)) {
             setListData(listBook);
         } else {
             setListData([]);
         }
-    
     }
-
-    // useEffect(()=> {
-    //     searchData(searchInput)
-    // }, [searchInput])
 
     useEffect(()=> {
         setListData(props.listData);
-      }, [props.listData])
-
+    }, [])
+    
     const handleChangeSearch = async (e) => {
         setSearchInput(e.target.value)
         await searchData(e.target.value);
     }
-
-    // const handleChangeSelectCategory = (value) => {
-    //     setSearchCategory(value)
-    // }
 
     return (
         <div>

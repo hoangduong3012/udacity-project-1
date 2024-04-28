@@ -1,9 +1,12 @@
-import React  from "react";
+import React, {useEffect}  from "react";
 import BookShelf from "../books";
 import { Link } from "react-router-dom";
 
 export default function Home(props) {
     const listData = props.listData;
+    useEffect(()=> {
+      props.fetchData();
+    }, [])
     return (
         <div className="list-books">
         <Link to="/search">Search book</Link>

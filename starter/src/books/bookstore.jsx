@@ -20,7 +20,7 @@ export default function BookStore(props) {
                     width: 128,
                     height: 193,
                     backgroundImage:
-                      `url(${ele.imageLinks.thumbnail})`
+                      `url(${ele.imageLinks?.thumbnail ? ele.imageLinks.thumbnail : ''})`
                   }}
                 ></div>
                 <div className="book-shelf-changer">
@@ -28,7 +28,7 @@ export default function BookStore(props) {
                 </div>
               </div>
               <div className="book-title">{ele.title}</div>
-              <div className="book-authors">{ele.authors}</div>
+              {ele.authors && <div className="book-authors">{ele.authors}</div>}
             </div>
           </li>
           ))} 

@@ -30,7 +30,7 @@ function App() {
     <div className="app">
        <Routes>
         <Route exact path="/" element={(
-        <Home listData={listData} handleChangeSelect={handleChangeSelect}/>
+        <Home listData={listData} handleChangeSelect={handleChangeSelect} fetchData={fetchData}/>
       )}>
         </Route>
         <Route path="/search" element={ <Search fetchData={fetchData} listData={listData} updateData={updateData}/>}>
