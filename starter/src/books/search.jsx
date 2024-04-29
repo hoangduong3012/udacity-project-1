@@ -10,8 +10,10 @@ export default function Search(props) {
 
     const handleChangeSelect = (value, id) => {
         // setSearchCategory(value);
-        props.updateData(value, id);
-        searchData(searchInput);
+        if (value && value !== 'none') {
+            props.updateData(value, id);
+            searchData(searchInput);
+        }
     }
 
     async function searchData(conditionSearch) {

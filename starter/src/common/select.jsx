@@ -6,8 +6,8 @@ export default function Select(props) {
         props.handleChangeSelect(e.target.value)
     };
     return (
-        <select value={props.value} onChange={handleChange}>
-            <option value="none" disabled>
+        <select value={props.value ? props.value : 'none'} onChange={handleChange}>
+            <option disabled>
                 Move to...
             </option>
             <option value="currentlyReading">
@@ -15,7 +15,7 @@ export default function Select(props) {
             </option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
-            <option value="NONE">None</option>
+            <option value="none">None</option>
         </select>
     )
   }
