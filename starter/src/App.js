@@ -8,7 +8,8 @@ import { getAll, update } from "./BooksAPI"
 function App() {
   const [listData, setListData] = useState([]);
   const handleChangeSelect = (value, id) => {
-    updateData(value, id)
+    const bookChange  = listData.find(ele => ele.id === id);
+    updateData(value, bookChange)
   }
 
   async function fetchData() {
@@ -16,9 +17,11 @@ function App() {
     setListData(listBook);
   }
 
-  async function updateData(value, id) {
-   await  update({id}, value)
-   await fetchData();
+  async function updateData(value, bookChange) {
+    if (bookChange) {
+      await update({id: bookChange.id}, value);
+      setListData([...listData.filter((b) => b.id !== bookChange.id), {...bookChange, shelf: value}]);
+    }
   }
 
   useEffect(()=> {

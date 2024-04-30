@@ -11,8 +11,10 @@ export default function Search(props) {
     const handleChangeSelect = (value, id) => {
         // setSearchCategory(value);
         if (value && value !== 'none') {
-            props.updateData(value, id);
-            searchData(searchInput);
+            const bookChange  = listData.find(ele => ele.id === id);
+            props.updateData(value, bookChange);
+            setListData([...listData.filter((b) => b.id !== bookChange.id), {...bookChange, shelf: value}]);
+            //searchData(searchInput);
         }
     }
 
@@ -22,7 +24,9 @@ export default function Search(props) {
             listBook.map(book => {
                 const bookFound = listData.find(data => data.id === book.id );
                 if (bookFound) {
-                    book.shelf = bookFound.shelf
+                    book.shelf = bookFound.shelf;
+                } else {
+                    book.shelf = 'none';
                 }
                 return book;
             });
